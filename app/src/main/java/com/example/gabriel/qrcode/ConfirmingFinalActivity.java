@@ -12,12 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
+
 
 public class ConfirmingFinalActivity extends Activity {
     ImageView imgView1;
@@ -39,38 +39,23 @@ public class ConfirmingFinalActivity extends Activity {
                 boolean writeMediaExterna = isExternalStorageWritable();
                 if(writeMediaExterna){
 
-
                 try{
-                    //Aqui Já é caminho para a apasta donload
-                    //Working here
-
-
-
-
+                   //catch image from imgfinal1 and write in folder downloads
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
                     imgFinal1.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byte[] imageBytes2 = stream.toByteArray();
-                   // FileOutputStream out3 =  open
-
                     file1 = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     File completeFile = new File(file1.toString(),"imagemfinal.png");
                     completeFile.createNewFile();
-
                     FileOutputStream out = new FileOutputStream(completeFile);
-
                     out.write(imageBytes2);
                     out.close();
                     stream.close();
-
-
-
-
                 }catch (Exception e){
                    e.printStackTrace();
                 }
                 Toast.makeText(getApplicationContext(),"See Folder Download",Toast.LENGTH_LONG
                 ).show();}
-
             }
         });
 
@@ -85,17 +70,10 @@ public class ConfirmingFinalActivity extends Activity {
 
         try{
 
-
+            //get image name: image final and show in imgFinal1
             FileInputStream inStream1 = this.openFileInput("image_final");
-
-
-
             BitmapFactory.Options o = new BitmapFactory.Options();
-           imgFinal1 =  BitmapFactory.decodeStream(inStream1, null, o);
-
-
-
-
+            imgFinal1 =  BitmapFactory.decodeStream(inStream1, null, o);
 
         }catch (Exception e){
 
@@ -112,13 +90,5 @@ public class ConfirmingFinalActivity extends Activity {
         return false;
     }
 
-    public File getPublicDownloadStorageDir(String albumName) {
-        // Get the directory for the user's public pictures directory.
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOWNLOADS), albumName);
-        if (!file.mkdirs()) {
 
-        }
-        return file;
-    }
 }
