@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+
 import android.os.Bundle;
 
 import android.widget.LinearLayout;
@@ -12,8 +12,9 @@ import com.squareup.picasso.Picasso;
 
 
 public class DrawQrImageAbove extends Activity implements com.squareup.picasso.Target {
+
+    //CustomView is a Canvas For resize the QrCode Image
     CustomView view1;
-    Uri uri;
     String urlSite="";
 
 
@@ -26,16 +27,18 @@ public class DrawQrImageAbove extends Activity implements com.squareup.picasso.T
         setContentView(R.layout.activity_prototipo_touch);
         view1 = new CustomView(this);
         Intent i1 = getIntent();
-        uri = i1.getData();
+
         urlSite = i1.getStringExtra("site");
         
-        Picasso.get().load(uri).into(this);
+        Picasso.get().load(i1.getData()).into(this);
 
     }
 
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
 
+
+        //Here, the params for the customVIew handle the image
         view1.setFundoBitMap(bitmap);
         view1.setUrlSite(urlSite);
         addContentView(view1, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
