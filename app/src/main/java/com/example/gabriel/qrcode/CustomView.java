@@ -22,7 +22,41 @@ import java.util.ArrayList;
 
 import static com.example.gabriel.qrcode.MainActivity.TAG;
 
+/*
+Code Description
+
+State Machine
+estate 0
+Nothing
+
+state 1
+percist touch x and y in a point1 and draw this point
+
+state 2
+ percist touch x and y in a point12 and draw this point
+ In this state has 2 point, then the app should draw a Rect with two points
+ draw bitmal qr code above this rect
+
+
+ obs This strategy is madatory for APP to know when to draws rect or points (1 or 2)
+
+
+
+ */
+
+
+
+
+
+
 public class CustomView extends View {
+
+
+    //points to draw the rect, each point has x and y float in array model implementation
+    private float[] ponto1 = new float[2];
+    private float[] ponto2 = new float[2];
+
+
     private Bitmap fundoBitMap;
     private ArrayList pts;
     int i = 0;
@@ -30,8 +64,7 @@ public class CustomView extends View {
     private float touchx = 0.0f;
     private float touchy = 0.0f;
     private int maqEstadoRect = 0;
-    private float[] ponto1 = new float[2];
-    private float[] ponto2 = new float[2];
+
     private Bitmap qrcodeDeseho;
     private String urlSite = "";
     private Bitmap imagemCanvasFinal;
@@ -56,6 +89,8 @@ public class CustomView extends View {
     public void draw(Canvas canvas) {
         super.draw(canvas);
         canvas.drawBitmap(fundoBitMap, 0, 0, new Paint());
+
+        //state machine
         switch (maqEstadoRect) {
             case 0:
 
@@ -86,9 +121,7 @@ public class CustomView extends View {
 
     }
 
-    public void setFundoBitMap(Bitmap fundoBitMap) {
-        this.fundoBitMap = fundoBitMap;
-    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -97,6 +130,7 @@ public class CustomView extends View {
                 touchx = event.getX();
                 touchy = event.getY();
                 maqEstadoRect++;
+                //Begin the method draw of view
                 invalidate();
                 return true;
 
@@ -107,6 +141,7 @@ public class CustomView extends View {
 
     }
 
+    //I am not the programmer of this code
     public Bitmap drawQrCodeInRect(String urlSring, float w, float h) {
         QRCodeWriter writer = new QRCodeWriter();
 
@@ -130,10 +165,8 @@ public class CustomView extends View {
 
     }
 
-    public void setUrlSite(String urlSite) {
-        this.urlSite = urlSite;
-    }
 
+//low levels of operations for transform bits in bitmap image
     public void salvarBitmap() {
         imagemCanvasFinal = getDrawingCache();
 
@@ -155,12 +188,18 @@ public class CustomView extends View {
 
     }
 
-
+//Second Methods
     public void nextTela(){
 
         Intent intent = new Intent(getContext(), ConfirmingFinalActivity.class);
        getContext().startActivity(intent);
 
 
+    }
+    public void setFundoBitMap(Bitmap fundoBitMap) {
+        this.fundoBitMap = fundoBitMap;
+    }
+    public void setUrlSite(String urlSite) {
+        this.urlSite = urlSite;
     }
 }
